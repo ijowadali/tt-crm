@@ -110,7 +110,7 @@ export const useUserStore = defineStore({
     // Sign out
     async logout() {
       this.setPermissions([]);
-      this.setUserInfo({ name: '', email: '' });
+      this.setUserInfo({ name: '', email: '', user_type: '' });
       storage.remove(ACCESS_TOKEN);
       storage.remove(CURRENT_USER);
     },
