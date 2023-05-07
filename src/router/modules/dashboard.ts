@@ -19,43 +19,24 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/dashboard',
     name: routeName,
-    redirect: '/dashboard/console',
+    redirect: '/dashboard',
     component: Layout,
     meta: {
       title: 'Dashboard',
       icon: renderIcon(DashboardOutlined),
-      permissions: ['dashboard_console', 'dashboard_console', 'dashboard_workplace'],
+      permissions: ['dashboard_console'],
       sort: 0,
     },
     children: [
       {
-        path: 'console',
-        name: `${routeName}_console`,
+        path: '',
+        name: `${routeName}`,
         meta: {
-          title: 'Console',
+          title: 'Dashboard',
           permissions: ['dashboard_console'],
-          affix: true,
+          affix: false,
         },
         component: () => import('@/views/dashboard/console/console.vue'),
-      },
-      {
-        path: 'monitor',
-        name: `${routeName}_monitor`,
-        meta: {
-          title: 'monitoring',
-          permissions: ['dashboard_monitor'],
-        },
-        component: () => import('@/views/dashboard/monitor/monitor.vue'),
-      },
-      {
-        path: 'workplace',
-        name: `${routeName}_workplace`,
-        meta: {
-          title: 'workbench',
-          keepAlive: true,
-          permissions: ['dashboard_workplace'],
-        },
-        component: () => import('@/views/dashboard/workplace/workplace.vue'),
       },
     ],
   },

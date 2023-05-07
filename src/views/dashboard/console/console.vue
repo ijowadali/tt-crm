@@ -1,7 +1,13 @@
 <template>
   <div class="console">
     <!--data card-->
-    <n-grid cols="1 s:2 m:3 l:4 xl:4 2xl:4" responsive="screen" :x-gap="12" :y-gap="8">
+    <n-grid
+      v-if="hasPermission(['can_view_counters'])"
+      cols="1 s:2 m:3 l:4 xl:4 2xl:4"
+      responsive="screen"
+      :x-gap="12"
+      :y-gap="8"
+    >
       <n-grid-item>
         <NCard
           title="Views"
@@ -225,7 +231,7 @@
 </template>
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
-  import { getConsoleInfo } from '@/api/dashboard/console';
+  // import { getConsoleInfo } from '@/api/dashboard/console';
   import VisiTab from './components/VisiTab.vue';
   import { CountTo } from '@/components/CountTo/index';
   import {
@@ -240,13 +246,14 @@
     TagsOutlined,
     SettingOutlined,
   } from '@vicons/antd';
+  import { usePermission } from '@/hooks/web/usePermission';
 
   const loading = ref(true);
   const visits = ref<any>({});
   const saleroom = ref<any>({});
   const orderLarge = ref<any>({});
   const volume = ref({});
-
+  const { hasPermission } = usePermission();
   // icon list
   const iconList = [
     {
@@ -324,11 +331,11 @@
   ];
 
   onMounted(async () => {
-    const data = await getConsoleInfo();
-    visits.value = data.visits;
-    saleroom.value = data.saleroom;
-    orderLarge.value = data.orderLarge;
-    volume.value = data.volume;
+    // const data = []; // await getConsoleInfo();
+    visits.value = 0;
+    saleroom.value = 0;
+    orderLarge.value = 0;
+    volume.value = 0;
     loading.value = false;
   });
 </script>

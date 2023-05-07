@@ -5,11 +5,13 @@ import { ResultEnum } from '@/enums/httpEnum';
 
 import { getUserInfo as getUserInfoApi, login } from '@/api/auth/user';
 import { storage } from '@/utils/Storage';
+import _ from 'lodash';
 
 export type UserInfoType = {
   // TODO: add your own data
   name: string;
   email: string;
+  user_type: string;
 };
 
 export interface IUserState {
@@ -80,16 +82,29 @@ export const useUserStore = defineStore({
     // Get user information
     async getInfo() {
       const result = await getUserInfoApi();
-      console.log('result', result);
+      console.log('result jawad', result);
       if (result.permissions && result.permissions.length) {
-        const permissionsList = result.permissions;
+        const permissionsList = this.allPermissions(result);
+        //const permissionsList = result.permissions;
         this.setPermissions(permissionsList);
+        console.log('all permissions', this.permissions);
         this.setUserInfo(result);
       } else {
         throw new Error('getInfo: permissionsList must be a non-null array !');
       }
       this.setAvatar(result.avatar);
       return result;
+    },
+
+    allPermissions(user) {
+      let rolePermissions: string[] = [];
+      if (user?.roles) {
+        for (const role of user.roles) {
+          rolePermissions = [...role.permissions.map((permission) => permission.name)];
+        }
+      }
+      const userPermissions = user?.permissions.map((permission) => permission.name) || [];
+      return _.uniq([...userPermissions, ...rolePermissions]);
     },
 
     // Sign out

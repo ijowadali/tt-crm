@@ -37,6 +37,21 @@ export function login(params: any) {
     }
   );
 }
+/**
+ * @description: User Register
+ */
+export function register(params: any) {
+  return http.request<BasicResponseModel>(
+    {
+      url: '/auth/register',
+      method: 'POST',
+      params,
+    },
+    {
+      isTransformResponse: false,
+    }
+  );
+}
 
 /**
  * @description: user change password

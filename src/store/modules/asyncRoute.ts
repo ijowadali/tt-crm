@@ -86,14 +86,18 @@ export const useAsyncRouteStore = defineStore({
       // Set the components that need to be cached
       this.keepAliveComponents = compNames;
     },
-    async generateRoutes(data: any) {
+    async generateRoutes(storeData: any) {
       let accessedRouters: any;
-      const permissionsList = data.permissions ?? [];
+      const permissionsList = storeData.permissions;
       const routeFilter = (route: any) => {
         const { meta } = route;
         const { permissions } = meta || {};
         if (!permissions) return true;
-        return permissionsList.some((item: any) => permissions.includes(item.value));
+        if (storeData.info.user_type === 'super admin') {
+          return true;
+        } else {
+          return permissionsList.some((item: any) => permissions.includes(item));
+        }
       };
       const { permissionMode } = useProjectSetting();
       if (unref(permissionMode) === 'BACK') {

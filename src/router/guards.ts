@@ -56,10 +56,8 @@ export function createRouterGuards(router: Router) {
       return;
     }
 
-    const userInfo = await userStore.getInfo();
-    const routes = await asyncRouteStore.generateRoutes(userInfo);
-    console.log('asyncRouteStore', routes);
-
+    await userStore.getInfo();
+    const routes = await asyncRouteStore.generateRoutes(userStore);
     // Dynamically add accessible routing table
     routes.forEach((item: any) => {
       router.addRoute(item as unknown as RouteRecordRaw);
