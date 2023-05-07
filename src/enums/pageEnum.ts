@@ -8,7 +8,7 @@ export enum PageEnum {
   // front page
   BASE_HOME = '/dashboard',
   //The home page jumps to the default route
-  BASE_HOME_REDIRECT = '/dashboard/console',
+  BASE_HOME_REDIRECT = '/dashboard',
   // mistake
   ERROR_PAGE_NAME = 'ErrorPage',
 }
